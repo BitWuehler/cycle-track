@@ -71,6 +71,7 @@ log_symptom:
             - fatigue
             - bloating
             - mood_swings
+            - temperature_sensitivity
     severity:
       name: Severity
       description: Severity of the symptom.
@@ -82,6 +83,11 @@ log_symptom:
             - "mild"
             - "moderate"
             - "severe"
+            - "very_cold"
+            - "slightly_cold"
+            - "normal"
+            - "slightly_warm"
+            - "very_hot"
     date:
       name: Date
       description: "Date of the symptom (in your configured date format). Defaults to today if omitted."
@@ -176,3 +182,4 @@ delete_symptom:
             - fatigue
             - bloating
             - mood_swings
+            - temperature_sensitivity

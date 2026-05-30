@@ -4,7 +4,12 @@
       "options": {
         "mild": "Mild",
         "moderate": "Moderate",
-        "severe": "Severe"
+        "severe": "Severe",
+        "very_cold": "Very cold",
+        "slightly_cold": "Slightly cold",
+        "normal": "Normal",
+        "slightly_warm": "Slightly warm",
+        "very_hot": "Very hot"
       }
     },
     "symptom_name": {
@@ -13,7 +18,8 @@
         "headache": "Headache",
         "fatigue": "Fatigue",
         "bloating": "Bloating",
-        "mood_swings": "Mood Swings"
+        "mood_swings": "Mood Swings",
+        "temperature_sensitivity": "Temperature Sensitivity"
       }
     }
   },

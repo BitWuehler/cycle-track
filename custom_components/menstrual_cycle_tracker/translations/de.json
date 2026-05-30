@@ -4,7 +4,12 @@
       "options": {
         "mild": "Leicht",
         "moderate": "Mittel",
-        "severe": "Stark"
+        "severe": "Stark",
+        "very_cold": "Viel zu kalt",
+        "slightly_cold": "Leicht kühl",
+        "normal": "Normal",
+        "slightly_warm": "Leicht warm",
+        "very_hot": "Viel zu heiß"
       }
     },
     "symptom_name": {
@@ -13,7 +18,8 @@
         "headache": "Kopfschmerzen",
         "fatigue": "Müdigkeit",
         "bloating": "Blähungen",
-        "mood_swings": "Stimmungsschwankungen"
+        "mood_swings": "Stimmungsschwankungen",
+        "temperature_sensitivity": "Temperaturempfinden"
       }
     }
   },
