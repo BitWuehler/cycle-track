@@ -17,9 +17,8 @@ log_period_start:
       name: Date
       description: "Date the period started (in your configured date format). Defaults to today if omitted."
       required: false
-      example: "02/12/26"
       selector:
-        text:
+        date: {}
 
 log_period_end:
   name: Log Period End
@@ -40,9 +39,8 @@ log_period_end:
       name: Date
       description: "Date the period ended (in your configured date format). Defaults to today if omitted."
       required: false
-      example: "02/12/26"
       selector:
-        text:
+        date: {}
 
 log_symptom:
   name: Log Symptom
@@ -81,9 +79,8 @@ log_symptom:
       name: Date
       description: "Date of the symptom (in your configured date format). Defaults to today if omitted."
       required: false
-      example: "02/12/26"
       selector:
-        text:
+        date: {}
 
 edit_cycle:
   name: Edit Cycle
@@ -103,25 +100,20 @@ edit_cycle:
       name: Original Start Date
       description: "The current start date of the cycle to edit (in your configured date format)."
       required: true
-      example: "01/05/26"
       selector:
-        text:
+        date:
     new_start_date:
       name: New Start Date
       description: "New start date for the cycle (in your configured date format). Leave blank to keep unchanged."
       required: false
-      example: "01/06/26"
       selector:
-        text:
+        date:
     new_end_date:
       name: New End Date
       description: "New end date for the cycle (in your configured date format). Leave blank to keep unchanged."
       required: false
-      example: "01/10/26"
       selector:
-        text:
-
-delete_cycle:
+        date:delete_cycle:
   name: Delete Cycle
   description: >
     Delete an existing cycle. Identify the cycle by its start date.
@@ -138,11 +130,8 @@ delete_cycle:
       name: Start Date
       description: "The start date of the cycle to delete (in your configured date format)."
       required: true
-      example: "01/05/26"
       selector:
-        text:
-
-delete_symptom:
+        date:delete_symptom:
   name: Delete Symptom
   description: >
     Delete a logged symptom. Identify it by date and symptom name.
@@ -160,9 +149,8 @@ delete_symptom:
       name: Date
       description: "The date the symptom was logged (in your configured date format)."
       required: true
-      example: "02/02/26"
       selector:
-        text:
+        date:
     symptom:
       name: Symptom
       description: "The name of the symptom to delete (must match exactly)."

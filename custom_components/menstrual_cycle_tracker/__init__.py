@@ -143,16 +143,25 @@ def _resolve_tracker(hass: HomeAssistant, call: ServiceCall) -> tuple[CycleData 
 def _register_services(hass: HomeAssistant) -> None:
     """Register domain services (called once when the first entry loads)."""
 
+    def _parse_service_date(date_str: str, date_format: str) -> date | None:
+        try:
+            return datetime.strptime(date_str, "%Y-%m-%d").date()
+        except ValueError:
+            pass
+        try:
+            return datetime.strptime(date_str, date_format).date()
+        except ValueError:
+            return None
+
     async def handle_log_period_start(call: ServiceCall) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        date_str = call.data.get("date", date.today().strftime(date_format))
-        try:
-            period_date = datetime.strptime(date_str, date_format).date()
-        except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
+        date_str = call.data.get("date")
+        period_date = _parse_service_date(date_str, date_format) if date_str else date.today()
+        if not period_date:
+            _LOGGER.error("Invalid date format: %s.", date_str)
             return
         await cd.log_period_start(period_date)
         async_dispatcher_send(hass, f"{SIGNAL_UPDATE}_{eid}")
@@ -162,11 +171,10 @@ def _register_services(hass: HomeAssistant) -> None:
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        date_str = call.data.get("date", date.today().strftime(date_format))
-        try:
-            period_date = datetime.strptime(date_str, date_format).date()
-        except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
+        date_str = call.data.get("date")
+        period_date = _parse_service_date(date_str, date_format) if date_str else date.today()
+        if not period_date:
+            _LOGGER.error("Invalid date format: %s.", date_str)
             return
         await cd.log_period_end(period_date)
         async_dispatcher_send(hass, f"{SIGNAL_UPDATE}_{eid}")
@@ -176,11 +184,10 @@ def _register_services(hass: HomeAssistant) -> None:
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        date_str = call.data.get("date", date.today().strftime(date_format))
-        try:
-            symptom_date = datetime.strptime(date_str, date_format).date()
-        except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
+        date_str = call.data.get("date")
+        symptom_date = _parse_service_date(date_str, date_format) if date_str else date.today()
+        if not symptom_date:
+            _LOGGER.error("Invalid date format: %s.", date_str)
             return
         await cd.log_symptom(
             symptom_date,
@@ -194,26 +201,22 @@ def _register_services(hass: HomeAssistant) -> None:
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        try:
-            original = datetime.strptime(call.data["original_start_date"], date_format).date()
-        except ValueError:
-            _LOGGER.error(
-                "Invalid original_start_date: %s. Use %s.", call.data["original_start_date"], date_format
-            )
+        original = _parse_service_date(call.data["original_start_date"], date_format)
+        if not original:
+            _LOGGER.error("Invalid original_start_date: %s.", call.data["original_start_date"])
             return
+
         new_start = None
         new_end = None
-        if "new_start_date" in call.data:
-            try:
-                new_start = datetime.strptime(call.data["new_start_date"], date_format).date()
-            except ValueError:
-                _LOGGER.error("Invalid new_start_date: %s. Use %s.", call.data["new_start_date"], date_format)
+        if "new_start_date" in call.data and call.data["new_start_date"]:
+            new_start = _parse_service_date(call.data["new_start_date"], date_format)
+            if not new_start:
+                _LOGGER.error("Invalid new_start_date: %s.", call.data["new_start_date"])
                 return
-        if "new_end_date" in call.data:
-            try:
-                new_end = datetime.strptime(call.data["new_end_date"], date_format).date()
-            except ValueError:
-                _LOGGER.error("Invalid new_end_date: %s. Use %s.", call.data["new_end_date"], date_format)
+        if "new_end_date" in call.data and call.data["new_end_date"]:
+            new_end = _parse_service_date(call.data["new_end_date"], date_format)
+            if not new_end:
+                _LOGGER.error("Invalid new_end_date: %s.", call.data["new_end_date"])
                 return
         if not await cd.edit_cycle(original, new_start, new_end):
             _LOGGER.warning("No cycle found with start date %s.", original.isoformat())
@@ -225,10 +228,9 @@ def _register_services(hass: HomeAssistant) -> None:
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        try:
-            start = datetime.strptime(call.data["start_date"], date_format).date()
-        except ValueError:
-            _LOGGER.error("Invalid start_date: %s. Use %s.", call.data["start_date"], date_format)
+        start = _parse_service_date(call.data["start_date"], date_format)
+        if not start:
+            _LOGGER.error("Invalid start_date: %s.", call.data["start_date"])
             return
         if not await cd.delete_cycle(start):
             _LOGGER.warning("No cycle found with start date %s.", start.isoformat())
@@ -240,10 +242,9 @@ def _register_services(hass: HomeAssistant) -> None:
         if cd is None:
             return
         date_format = cd.entry.data.get("date_format", "%m/%d/%y")
-        try:
-            symptom_date = datetime.strptime(call.data["date"], date_format).date()
-        except ValueError:
-            _LOGGER.error("Invalid date: %s. Use %s.", call.data["date"], date_format)
+        symptom_date = _parse_service_date(call.data["date"], date_format)
+        if not symptom_date:
+            _LOGGER.error("Invalid date: %s.", call.data["date"])
             return
         if not await cd.delete_symptom(symptom_date, call.data["symptom"]):
             _LOGGER.warning(
