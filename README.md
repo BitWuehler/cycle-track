@@ -12,9 +12,10 @@ A privacy-focused Home Assistant integration for tracking menstrual cycles with 
 
 ## ✨ Key Features
 
+- 🌍 **Multi-Language & Formats** - Full English and German UI support with customizable date formats
 - 📊 **Adaptive Predictions** - Uses rolling averages of your last 3 cycles (not generic 28-day predictions)
 - 🔒 **100% Privacy** - All data stored locally in Home Assistant
-- 📱 **Easy Logging** - Simple services to track periods and symptoms
+- 📱 **Easy Logging** - Simple services to track periods and a variety of symptoms (including temperature sensitivity and custom text)
 - 🎯 **Phase Tracking** - Menstrual, Follicular, Ovulation, Luteal phases
 - 🏠 **Full Automation** - Integrate with lights, climate, notifications
 - ⚡ **Real-time Updates** - Entities update instantly when you log data
@@ -84,8 +85,9 @@ Or add to HACS → Automation → Custom Repositories → `https://github.com/sj
 
 ## ⚙️ Setup Wizard
 
-### Step 1: Name Your Tracker
-Give it a friendly name (e.g., "My Cycle" or "Cycle Tracker")
+### Step 1: Basic Configuration
+- **Tracker Name:** Give it a friendly name (e.g., "My Cycle" or "Cycle Tracker")
+- **Date Format:** Choose your preferred date format (e.g., `%Y-%m-%d`, `%d.%m.%Y`, `%m/%d/%y`) for backend data and automation service calls.
 
 ### Step 2: Add Initial Data (Optional)
 
@@ -158,6 +160,9 @@ The integration creates a device with these entities:
 
 ## 🎮 Services
 
+> **💡 Smart Tracker Selection:** If you only have one tracker installed, you can skip the `tracker` field in all service calls. Home Assistant will select it automatically!
+> **📅 Easy Date Picking:** When using the Home Assistant UI, dates can be comfortably selected using the built-in Calendar Popup instead of manual typing.
+
 ### Log Period Start
 ```yaml
 service: menstrual_cycle.log_period_start
@@ -176,8 +181,8 @@ data:
 ```yaml
 service: menstrual_cycle.log_symptom
 data:
-  symptom: "cramps"
-  severity: "moderate"  # Optional: mild, moderate, severe
+  symptom: "cramps"     # Options: cramps, headache, fatigue, bloating, mood_swings, temperature_sensitivity - or any custom text!
+  severity: "moderate"  # Severity options: mild, moderate, severe. Temperature options: very_cold, slightly_cold, normal, slightly_warm, very_hot
   date: "2026-02-02"    # Optional, defaults to today
 ```
 

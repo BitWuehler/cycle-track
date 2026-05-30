@@ -324,6 +324,24 @@ class CycleData:
     async def log_period_start(self, period_date: date) -> None:
         """Log the start of a period."""
         date_str = period_date.isoformat()
+        
+        last_start = self.last_period_start
+        if last_start and abs((period_date - last_start).days) < 15:
+            # Overwrite the last logged start date instead of creating a new one
+            for cycle in reversed(self.cycles):
+                if cycle.get("start_date") == last_start.isoformat():
+                    cycle["start_date"] = date_str
+                    # If the existing end date is now before the new start date, clear it
+                    if cycle.get("end_date"):
+                        try:
+                            edate = datetime.strptime(cycle["end_date"], "%Y-%m-%d").date()
+                            if edate < period_date:
+                                cycle["end_date"] = ""
+                        except ValueError:
+                            pass
+                    await self._async_save()
+                    return
+
         # Check if we already have an open cycle (start without end)
         for cycle in reversed(self.cycles):
             if cycle.get("start_date") == date_str:
@@ -332,6 +350,7 @@ class CycleData:
                 cycle["start_date"] = date_str
                 await self._async_save()
                 return
+                
         # Add new cycle
         self.cycles.append({"start_date": date_str, "end_date": ""})
         await self._async_save()
