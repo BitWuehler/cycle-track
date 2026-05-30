@@ -111,7 +111,7 @@ class CycleDaySensor(CycleTrackerSensorBase):
     """Sensor for current cycle day."""
 
     _attr_icon = "mdi:counter"
-    _attr_native_unit_of_measurement = "day"
+    # Removed unit_of_measurement so it displays as a pure number
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
@@ -153,7 +153,8 @@ class PeriodLengthSensor(CycleTrackerSensorBase):
     """Sensor for average period length."""
 
     _attr_icon = "mdi:timer-outline"
-    _attr_native_unit_of_measurement = "days"
+    _attr_device_class = SensorDeviceClass.DURATION
+    _attr_native_unit_of_measurement = "d"
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
@@ -169,7 +170,8 @@ class CycleLengthSensor(CycleTrackerSensorBase):
     """Sensor for average cycle length."""
 
     _attr_icon = "mdi:calendar-range"
-    _attr_native_unit_of_measurement = "days"
+    _attr_device_class = SensorDeviceClass.DURATION
+    _attr_native_unit_of_measurement = "d"
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
@@ -206,7 +208,7 @@ class TodaysSymptomsSensor(CycleTrackerSensorBase):
     """Sensor showing symptoms logged today."""
 
     _attr_icon = "mdi:clipboard-pulse"
-    _attr_native_unit_of_measurement = "symptoms"
+    # Removed unit_of_measurement so it displays as a pure number
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)

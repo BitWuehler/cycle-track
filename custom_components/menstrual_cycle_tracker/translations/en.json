@@ -79,5 +79,111 @@
         "name": "Cycle Tracker"
       }
     }
+  },
+  "services": {
+    "log_period_start": {
+      "name": "Log Period Start",
+      "description": "Log the start of a menstrual period.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker to log to."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Date the period started (in your configured date format)."
+        }
+      }
+    },
+    "log_period_end": {
+      "name": "Log Period End",
+      "description": "Log the end of a menstrual period.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker to log to."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Date the period ended (in your configured date format)."
+        }
+      }
+    },
+    "log_symptom": {
+      "name": "Log Symptom",
+      "description": "Log a symptom associated with the cycle.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker to log to."
+        },
+        "symptom": {
+          "name": "Symptom",
+          "description": "Name of the symptom (e.g. cramps, headache, fatigue)."
+        },
+        "severity": {
+          "name": "Severity",
+          "description": "Severity of the symptom."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Date of the symptom (in your configured date format)."
+        }
+      }
+    },
+    "edit_cycle": {
+      "name": "Edit Cycle",
+      "description": "Edit an existing cycle's start or end date.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker."
+        },
+        "original_start_date": {
+          "name": "Original Start Date",
+          "description": "The current start date of the cycle to edit (in your configured format)."
+        },
+        "new_start_date": {
+          "name": "New Start Date",
+          "description": "New start date for the cycle. Leave blank to keep unchanged."
+        },
+        "new_end_date": {
+          "name": "New End Date",
+          "description": "New end date for the cycle. Leave blank to keep unchanged."
+        }
+      }
+    },
+    "delete_cycle": {
+      "name": "Delete Cycle",
+      "description": "Delete an existing cycle.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker."
+        },
+        "start_date": {
+          "name": "Start Date",
+          "description": "The start date of the cycle to delete."
+        }
+      }
+    },
+    "delete_symptom": {
+      "name": "Delete Symptom",
+      "description": "Delete a logged symptom.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Select the tracker."
+        },
+        "date": {
+          "name": "Date",
+          "description": "The date the symptom was logged."
+        },
+        "symptom": {
+          "name": "Symptom",
+          "description": "The name of the symptom to delete."
+        }
+      }
+    }
   }
 }

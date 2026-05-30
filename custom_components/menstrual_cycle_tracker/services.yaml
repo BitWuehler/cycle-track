@@ -15,7 +15,7 @@ log_period_start:
           integration: menstrual_cycle_tracker
     date:
       name: Date
-      description: "Date the period started (MM/DD/YY, e.g. 02/12/26). Defaults to today if omitted."
+      description: "Date the period started (in your configured date format). Defaults to today if omitted."
       required: false
       example: "02/12/26"
       selector:
@@ -38,7 +38,7 @@ log_period_end:
           integration: menstrual_cycle_tracker
     date:
       name: Date
-      description: "Date the period ended (MM/DD/YY, e.g. 02/12/26). Defaults to today if omitted."
+      description: "Date the period ended (in your configured date format). Defaults to today if omitted."
       required: false
       example: "02/12/26"
       selector:
@@ -79,7 +79,7 @@ log_symptom:
             - "severe"
     date:
       name: Date
-      description: "Date of the symptom (MM/DD/YY, e.g. 02/12/26). Defaults to today if omitted."
+      description: "Date of the symptom (in your configured date format). Defaults to today if omitted."
       required: false
       example: "02/12/26"
       selector:
@@ -101,21 +101,21 @@ edit_cycle:
           integration: menstrual_cycle_tracker
     original_start_date:
       name: Original Start Date
-      description: "The current start date of the cycle to edit (MM/DD/YY)."
+      description: "The current start date of the cycle to edit (in your configured date format)."
       required: true
       example: "01/05/26"
       selector:
         text:
     new_start_date:
       name: New Start Date
-      description: "New start date for the cycle (MM/DD/YY). Leave blank to keep unchanged."
+      description: "New start date for the cycle (in your configured date format). Leave blank to keep unchanged."
       required: false
       example: "01/06/26"
       selector:
         text:
     new_end_date:
       name: New End Date
-      description: "New end date for the cycle (MM/DD/YY). Leave blank to keep unchanged."
+      description: "New end date for the cycle (in your configured date format). Leave blank to keep unchanged."
       required: false
       example: "01/10/26"
       selector:
@@ -136,7 +136,7 @@ delete_cycle:
           integration: menstrual_cycle_tracker
     start_date:
       name: Start Date
-      description: "The start date of the cycle to delete (MM/DD/YY)."
+      description: "The start date of the cycle to delete (in your configured date format)."
       required: true
       example: "01/05/26"
       selector:
@@ -158,7 +158,7 @@ delete_symptom:
           integration: menstrual_cycle_tracker
     date:
       name: Date
-      description: "The date the symptom was logged (MM/DD/YY)."
+      description: "The date the symptom was logged (in your configured date format)."
       required: true
       example: "02/02/26"
       selector:

@@ -79,5 +79,111 @@
         "name": "Zyklus-Tracker"
       }
     }
+  },
+  "services": {
+    "log_period_start": {
+      "name": "Periode Start protokollieren",
+      "description": "Protokolliere den Beginn einer Menstruationsperiode.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Startdatum der Periode (im konfigurierten Format)."
+        }
+      }
+    },
+    "log_period_end": {
+      "name": "Periode Ende protokollieren",
+      "description": "Protokolliere das Ende einer Menstruationsperiode.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Enddatum der Periode (im konfigurierten Format)."
+        }
+      }
+    },
+    "log_symptom": {
+      "name": "Symptom protokollieren",
+      "description": "Protokolliere ein Symptom, das mit dem Zyklus verbunden ist.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "symptom": {
+          "name": "Symptom",
+          "description": "Name des Symptoms (z.B. Krämpfe, Kopfschmerzen, Müdigkeit)."
+        },
+        "severity": {
+          "name": "Schweregrad",
+          "description": "Schweregrad des Symptoms."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Datum des Symptoms (im konfigurierten Format)."
+        }
+      }
+    },
+    "edit_cycle": {
+      "name": "Zyklus bearbeiten",
+      "description": "Bearbeite das Start- oder Enddatum eines bestehenden Zyklus.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "original_start_date": {
+          "name": "Ursprüngliches Startdatum",
+          "description": "Das aktuelle Startdatum des zu bearbeitenden Zyklus (im konfigurierten Format)."
+        },
+        "new_start_date": {
+          "name": "Neues Startdatum",
+          "description": "Neues Startdatum für den Zyklus. Leer lassen, um es beizubehalten."
+        },
+        "new_end_date": {
+          "name": "Neues Enddatum",
+          "description": "Neues Enddatum für den Zyklus. Leer lassen, um es beizubehalten."
+        }
+      }
+    },
+    "delete_cycle": {
+      "name": "Zyklus löschen",
+      "description": "Lösche einen bestehenden Zyklus.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "start_date": {
+          "name": "Startdatum",
+          "description": "Das Startdatum des zu löschenden Zyklus."
+        }
+      }
+    },
+    "delete_symptom": {
+      "name": "Symptom löschen",
+      "description": "Lösche ein protokolliertes Symptom.",
+      "fields": {
+        "tracker": {
+          "name": "Tracker",
+          "description": "Wähle den Tracker aus."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Das Datum, an dem das Symptom protokolliert wurde."
+        },
+        "symptom": {
+          "name": "Symptom",
+          "description": "Der Name des zu löschenden Symptoms."
+        }
+      }
+    }
   }
 }
