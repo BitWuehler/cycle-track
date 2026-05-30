@@ -1,0 +1,83 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Menstruationszyklus-Tracker Einrichtung",
+        "description": "Richten Sie Ihren Zyklus-Tracker unten ein. Um die Vorhersagegenauigkeit zu verbessern, geben Sie bis zu 3 vergangene Perioden ein. Je mehr Verlauf Sie angeben, desto besser werden die Vorhersagen. Geben Sie Ihre letzte Periode oben zuerst ein und arbeiten Sie sich rückwärts vor. Alle Datumsfelder sind optional \u2014 lassen Sie sie leer, um sie zu überspringen.",
+        "data": {
+          "name": "Tracker-Name",
+          "date_format": "Datumsformat",
+          "cycle1_start": "Letzte Periode \u2014 Startdatum",
+          "cycle1_end": "Letzte Periode \u2014 Enddatum",
+          "cycle2_start": "Vorletzte Periode \u2014 Startdatum",
+          "cycle2_end": "Vorletzte Periode \u2014 Enddatum",
+          "cycle3_start": "Drittletzte Periode \u2014 Startdatum",
+          "cycle3_end": "Drittletzte Periode \u2014 Enddatum"
+        },
+        "data_description": {
+          "name": "Ein Name für diesen Tracker (z. B. Mein Zyklus).",
+          "date_format": "Wähle das bevorzugte Format für die Ein- und Ausgabe von Daten.",
+          "cycle1_start": "Der erste Tag, an dem Sie während Ihrer letzten Periode geblutet haben.",
+          "cycle1_end": "Der letzte Tag der Blutung für diese Periode. Leer lassen, falls sie noch andauert.",
+          "cycle2_start": "Der erste Tag der Blutung für die Periode davor.",
+          "cycle2_end": "Der letzte Tag der Blutung für diese Periode.",
+          "cycle3_start": "Der erste Tag der Blutung für Ihre drittletzte Periode.",
+          "cycle3_end": "Der letzte Tag der Blutung für diese Periode."
+        }
+      }
+    },
+    "error": {
+      "end_without_start": "Ein Enddatum wurde ohne Startdatum angegeben. Bitte geben Sie zuerst das Startdatum ein.",
+      "end_before_start": "Das Enddatum muss nach dem Startdatum liegen."
+    },
+    "abort": {
+      "already_configured": "Dieser Tracker ist bereits konfiguriert."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_phase": {
+        "name": "Aktuelle Phase",
+        "state": {
+          "Menstrual": "Menstruation",
+          "Follicular": "Follikelphase",
+          "Ovulation": "Eisprung",
+          "Luteal": "Lutealphase",
+          "Unknown": "Unbekannt"
+        }
+      },
+      "cycle_day": {
+        "name": "Zyklustag"
+      },
+      "next_period": {
+        "name": "Nächste Periode"
+      },
+      "period_length": {
+        "name": "Periodenlänge"
+      },
+      "cycle_length": {
+        "name": "Zykluslänge"
+      },
+      "fertile_window": {
+        "name": "Fruchtbares Fenster",
+        "state": {
+          "Yes": "Ja",
+          "No": "Nein"
+        }
+      },
+      "todays_symptoms": {
+        "name": "Heutige Symptome"
+      }
+    },
+    "binary_sensor": {
+      "period_active": {
+        "name": "Periode aktiv"
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Zyklus-Tracker"
+      }
+    }
+  }
+}

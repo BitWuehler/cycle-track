@@ -33,5 +33,51 @@
     "abort": {
       "already_configured": "This tracker is already configured."
     }
+  },
+  "entity": {
+    "sensor": {
+      "current_phase": {
+        "name": "Current Phase",
+        "state": {
+          "Menstrual": "Menstrual",
+          "Follicular": "Follicular",
+          "Ovulation": "Ovulation",
+          "Luteal": "Luteal",
+          "Unknown": "Unknown"
+        }
+      },
+      "cycle_day": {
+        "name": "Cycle Day"
+      },
+      "next_period": {
+        "name": "Next Period"
+      },
+      "period_length": {
+        "name": "Period Length"
+      },
+      "cycle_length": {
+        "name": "Cycle Length"
+      },
+      "fertile_window": {
+        "name": "Fertile Window",
+        "state": {
+          "Yes": "Yes",
+          "No": "No"
+        }
+      },
+      "todays_symptoms": {
+        "name": "Today's Symptoms"
+      }
+    },
+    "binary_sensor": {
+      "period_active": {
+        "name": "Period Active"
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Cycle Tracker"
+      }
+    }
   }
 }

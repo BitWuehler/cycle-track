@@ -147,11 +147,12 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
-        date_str = call.data.get("date", date.today().strftime("%m/%d/%y"))
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
+        date_str = call.data.get("date", date.today().strftime(date_format))
         try:
-            period_date = datetime.strptime(date_str, "%m/%d/%y").date()
+            period_date = datetime.strptime(date_str, date_format).date()
         except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use MM/DD/YY (e.g. 02/12/26).", date_str)
+            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
             return
         await cd.log_period_start(period_date)
         async_dispatcher_send(hass, f"{SIGNAL_UPDATE}_{eid}")
@@ -160,11 +161,12 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
-        date_str = call.data.get("date", date.today().strftime("%m/%d/%y"))
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
+        date_str = call.data.get("date", date.today().strftime(date_format))
         try:
-            period_date = datetime.strptime(date_str, "%m/%d/%y").date()
+            period_date = datetime.strptime(date_str, date_format).date()
         except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use MM/DD/YY (e.g. 02/12/26).", date_str)
+            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
             return
         await cd.log_period_end(period_date)
         async_dispatcher_send(hass, f"{SIGNAL_UPDATE}_{eid}")
@@ -173,11 +175,12 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
-        date_str = call.data.get("date", date.today().strftime("%m/%d/%y"))
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
+        date_str = call.data.get("date", date.today().strftime(date_format))
         try:
-            symptom_date = datetime.strptime(date_str, "%m/%d/%y").date()
+            symptom_date = datetime.strptime(date_str, date_format).date()
         except ValueError:
-            _LOGGER.error("Invalid date format: %s. Use MM/DD/YY (e.g. 02/12/26).", date_str)
+            _LOGGER.error("Invalid date format: %s. Use %s.", date_str, date_format)
             return
         await cd.log_symptom(
             symptom_date,
@@ -190,26 +193,27 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
         try:
-            original = datetime.strptime(call.data["original_start_date"], "%m/%d/%y").date()
+            original = datetime.strptime(call.data["original_start_date"], date_format).date()
         except ValueError:
             _LOGGER.error(
-                "Invalid original_start_date: %s. Use MM/DD/YY.", call.data["original_start_date"]
+                "Invalid original_start_date: %s. Use %s.", call.data["original_start_date"], date_format
             )
             return
         new_start = None
         new_end = None
         if "new_start_date" in call.data:
             try:
-                new_start = datetime.strptime(call.data["new_start_date"], "%m/%d/%y").date()
+                new_start = datetime.strptime(call.data["new_start_date"], date_format).date()
             except ValueError:
-                _LOGGER.error("Invalid new_start_date: %s. Use MM/DD/YY.", call.data["new_start_date"])
+                _LOGGER.error("Invalid new_start_date: %s. Use %s.", call.data["new_start_date"], date_format)
                 return
         if "new_end_date" in call.data:
             try:
-                new_end = datetime.strptime(call.data["new_end_date"], "%m/%d/%y").date()
+                new_end = datetime.strptime(call.data["new_end_date"], date_format).date()
             except ValueError:
-                _LOGGER.error("Invalid new_end_date: %s. Use MM/DD/YY.", call.data["new_end_date"])
+                _LOGGER.error("Invalid new_end_date: %s. Use %s.", call.data["new_end_date"], date_format)
                 return
         if not await cd.edit_cycle(original, new_start, new_end):
             _LOGGER.warning("No cycle found with start date %s.", original.isoformat())
@@ -220,10 +224,11 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
         try:
-            start = datetime.strptime(call.data["start_date"], "%m/%d/%y").date()
+            start = datetime.strptime(call.data["start_date"], date_format).date()
         except ValueError:
-            _LOGGER.error("Invalid start_date: %s. Use MM/DD/YY.", call.data["start_date"])
+            _LOGGER.error("Invalid start_date: %s. Use %s.", call.data["start_date"], date_format)
             return
         if not await cd.delete_cycle(start):
             _LOGGER.warning("No cycle found with start date %s.", start.isoformat())
@@ -234,10 +239,11 @@ def _register_services(hass: HomeAssistant) -> None:
         cd, eid = _resolve_tracker(hass, call)
         if cd is None:
             return
+        date_format = cd.entry.data.get("date_format", "%m/%d/%y")
         try:
-            symptom_date = datetime.strptime(call.data["date"], "%m/%d/%y").date()
+            symptom_date = datetime.strptime(call.data["date"], date_format).date()
         except ValueError:
-            _LOGGER.error("Invalid date: %s. Use MM/DD/YY.", call.data["date"])
+            _LOGGER.error("Invalid date: %s. Use %s.", call.data["date"], date_format)
             return
         if not await cd.delete_symptom(symptom_date, call.data["symptom"]):
             _LOGGER.warning(

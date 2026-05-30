@@ -4,7 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
@@ -16,6 +16,11 @@ from .const import (
     ATTR_DAYS_UNTIL_NEXT,
     ATTR_IS_PMS_WINDOW,
     DOMAIN,
+    PHASE_FOLLICULAR,
+    PHASE_LUTEAL,
+    PHASE_MENSTRUAL,
+    PHASE_OVULATION,
+    PHASE_UNKNOWN,
     SIGNAL_UPDATE,
 )
 
@@ -83,11 +88,19 @@ class CurrentPhaseSensor(CycleTrackerSensorBase):
     """Sensor for current cycle phase."""
 
     _attr_icon = "mdi:calendar-heart"
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = [
+        PHASE_MENSTRUAL,
+        PHASE_FOLLICULAR,
+        PHASE_OVULATION,
+        PHASE_LUTEAL,
+        PHASE_UNKNOWN,
+    ]
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_current_phase"
-        self._attr_name = "Current Phase"
+        self._attr_translation_key = "current_phase"
 
     @property
     def native_value(self) -> str:
@@ -103,7 +116,7 @@ class CycleDaySensor(CycleTrackerSensorBase):
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_cycle_day"
-        self._attr_name = "Cycle Day"
+        self._attr_translation_key = "cycle_day"
 
     @property
     def native_value(self) -> int | None:
@@ -118,14 +131,15 @@ class NextPeriodSensor(CycleTrackerSensorBase):
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_next_period"
-        self._attr_name = "Next Period"
+        self._attr_translation_key = "next_period"
 
     @property
     def native_value(self) -> str | None:
         next_period = self._cycle_data.next_period_date
         if next_period is None:
             return None
-        return next_period.strftime("%m/%d/%y")
+        date_format = self._entry.data.get("date_format", "%m/%d/%y")
+        return next_period.strftime(date_format)
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
@@ -144,7 +158,7 @@ class PeriodLengthSensor(CycleTrackerSensorBase):
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_period_length"
-        self._attr_name = "Period Length"
+        self._attr_translation_key = "period_length"
 
     @property
     def native_value(self) -> int:
@@ -160,7 +174,7 @@ class CycleLengthSensor(CycleTrackerSensorBase):
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_cycle_length"
-        self._attr_name = "Cycle Length"
+        self._attr_translation_key = "cycle_length"
 
     @property
     def native_value(self) -> int:
@@ -171,11 +185,13 @@ class FertileWindowSensor(CycleTrackerSensorBase):
     """Sensor for fertile window status."""
 
     _attr_icon = "mdi:flower"
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = ["Yes", "No"]
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_fertile_window"
-        self._attr_name = "Fertile Window"
+        self._attr_translation_key = "fertile_window"
 
     @property
     def native_value(self) -> str:
@@ -195,7 +211,7 @@ class TodaysSymptomsSensor(CycleTrackerSensorBase):
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
         super().__init__(cycle_data, entry, tracker_name)
         self._attr_unique_id = f"{entry.entry_id}_todays_symptoms"
-        self._attr_name = "Today's Symptoms"
+        self._attr_translation_key = "todays_symptoms"
 
     @property
     def native_value(self) -> int:

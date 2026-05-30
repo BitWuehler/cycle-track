@@ -45,7 +45,7 @@ class PeriodActiveSensor(BinarySensorEntity):
         self._cycle_data = cycle_data
         self._entry = entry
         self._attr_unique_id = f"{entry.entry_id}_period_active"
-        self._attr_name = "Period Active"
+        self._attr_translation_key = "period_active"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
             name=tracker_name,

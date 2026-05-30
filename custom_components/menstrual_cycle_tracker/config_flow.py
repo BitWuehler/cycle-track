@@ -67,6 +67,7 @@ class MenstrualCycleTrackerConfigFlow(ConfigFlow, domain=DOMAIN):
                     title=name,
                     data={
                         "name": name,
+                        "date_format": user_input["date_format"],
                         "initial_cycles": initial_cycles,
                     },
                 )
@@ -74,6 +75,17 @@ class MenstrualCycleTrackerConfigFlow(ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Required("name", default="My Cycle"): selector.TextSelector(),
+                vol.Required("date_format", default="%m/%d/%y"): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=[
+                            selector.SelectOptionDict(value="%Y-%m-%d", label="YYYY-MM-DD (2026-02-12)"),
+                            selector.SelectOptionDict(value="%d.%m.%Y", label="DD.MM.YYYY (12.02.2026)"),
+                            selector.SelectOptionDict(value="%m/%d/%y", label="MM/DD/YY (02/12/26)"),
+                            selector.SelectOptionDict(value="%d/%m/%Y", label="DD/MM/YYYY (12/02/2026)")
+                        ],
+                        mode=selector.SelectSelectorMode.DROPDOWN,
+                    )
+                ),
                 # Most recent cycle
                 vol.Optional("cycle1_start"): selector.DateSelector(),
                 vol.Optional("cycle1_end"): selector.DateSelector(),
