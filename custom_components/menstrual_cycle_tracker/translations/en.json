@@ -123,7 +123,12 @@
         },
         "severity": {
           "name": "Severity",
-          "description": "Severity of the symptom."
+          "description": "Severity of the symptom.",
+          "options": {
+            "mild": "Mild",
+            "moderate": "Moderate",
+            "severe": "Severe"
+          }
         },
         "date": {
           "name": "Date",

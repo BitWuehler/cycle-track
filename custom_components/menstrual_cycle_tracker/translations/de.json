@@ -123,7 +123,12 @@
         },
         "severity": {
           "name": "Schweregrad",
-          "description": "Schweregrad des Symptoms."
+          "description": "Schweregrad des Symptoms.",
+          "options": {
+            "mild": "Leicht",
+            "moderate": "Mittel",
+            "severe": "Stark"
+          }
         },
         "date": {
           "name": "Datum",
