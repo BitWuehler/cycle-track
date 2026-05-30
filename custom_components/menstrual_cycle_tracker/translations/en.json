@@ -1,4 +1,22 @@
 {
+  "selector": {
+    "severity": {
+      "options": {
+        "mild": "Mild",
+        "moderate": "Moderate",
+        "severe": "Severe"
+      }
+    },
+    "symptom_name": {
+      "options": {
+        "cramps": "Cramps",
+        "headache": "Headache",
+        "fatigue": "Fatigue",
+        "bloating": "Bloating",
+        "mood_swings": "Mood Swings"
+      }
+    }
+  },
   "config": {
     "step": {
       "user": {

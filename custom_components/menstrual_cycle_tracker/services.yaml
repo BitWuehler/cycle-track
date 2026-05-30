@@ -62,13 +62,22 @@ log_symptom:
       description: Name of the symptom (e.g. cramps, headache, fatigue).
       required: true
       selector:
-        text:
+        select:
+          translation_key: symptom_name
+          custom_value: true
+          options:
+            - cramps
+            - headache
+            - fatigue
+            - bloating
+            - mood_swings
     severity:
       name: Severity
       description: Severity of the symptom.
       required: false
       selector:
         select:
+          translation_key: severity
           options:
             - "mild"
             - "moderate"
@@ -154,4 +163,12 @@ edit_cycle:
       description: "The name of the symptom to delete (must match exactly)."
       required: true
       selector:
-        text:
+        select:
+          translation_key: symptom_name
+          custom_value: true
+          options:
+            - cramps
+            - headache
+            - fatigue
+            - bloating
+            - mood_swings

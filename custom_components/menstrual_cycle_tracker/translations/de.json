@@ -1,4 +1,22 @@
 {
+  "selector": {
+    "severity": {
+      "options": {
+        "mild": "Leicht",
+        "moderate": "Mittel",
+        "severe": "Stark"
+      }
+    },
+    "symptom_name": {
+      "options": {
+        "cramps": "Krämpfe",
+        "headache": "Kopfschmerzen",
+        "fatigue": "Müdigkeit",
+        "bloating": "Blähungen",
+        "mood_swings": "Stimmungsschwankungen"
+      }
+    }
+  },
   "config": {
     "step": {
       "user": {
