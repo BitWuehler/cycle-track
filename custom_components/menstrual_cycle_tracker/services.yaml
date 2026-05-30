@@ -120,7 +120,9 @@ edit_cycle:
       description: "New end date for the cycle (in your configured date format). Leave blank to keep unchanged."
       required: false
       selector:
-        date:delete_cycle:
+        date: {}
+
+delete_cycle:
   name: Delete Cycle
   description: >
     Delete an existing cycle. Identify the cycle by its start date.
@@ -138,7 +140,9 @@ edit_cycle:
       description: "The start date of the cycle to delete (in your configured date format)."
       required: true
       selector:
-        date:delete_symptom:
+        date: {}
+
+delete_symptom:
   name: Delete Symptom
   description: >
     Delete a logged symptom. Identify it by date and symptom name.
