@@ -331,14 +331,7 @@ class CycleData:
             for cycle in reversed(self.cycles):
                 if cycle.get("start_date") == last_start.isoformat():
                     cycle["start_date"] = date_str
-                    # If the existing end date is now before the new start date, clear it
-                    if cycle.get("end_date"):
-                        try:
-                            edate = datetime.strptime(cycle["end_date"], "%Y-%m-%d").date()
-                            if edate < period_date:
-                                cycle["end_date"] = ""
-                        except ValueError:
-                            pass
+                    cycle["end_date"] = "" # Always clear end date so it becomes active
                     await self._async_save()
                     return
 
