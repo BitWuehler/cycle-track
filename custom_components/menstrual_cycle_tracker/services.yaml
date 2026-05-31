@@ -79,6 +79,7 @@ log_symptom:
       selector:
         select:
           translation_key: severity
+          custom_value: true
           options:
             - "mild"
             - "moderate"

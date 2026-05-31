@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta
 from typing import Any
 
-from homeassistant.components.calendar import CalendarEntity, CalendarEvent
+from homeassistant.components.calendar import CalendarEntity, CalendarEvent, CalendarEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
@@ -81,6 +81,36 @@ class CycleCalendar(CalendarEntity):
         self.async_write_ha_state()
 
     @property
+    def supported_features(self) -> CalendarEntityFeature:
+        """Return supported features."""
+        return CalendarEntityFeature.DELETE_EVENT
+
+    async def async_delete_event(
+        self,
+        uid: str,
+        recurrences_range: str | None = None,
+        recurrence_id: str | None = None,
+    ) -> None:
+        """Delete an event on the calendar."""
+        if uid.startswith("period_"):
+            start_date_str = uid[7:]
+            try:
+                start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+                await self._cycle_data.delete_cycle(start_date)
+            except ValueError:
+                pass
+        elif uid.startswith("symptom_"):
+            parts = uid.split("_", 2)
+            if len(parts) == 3:
+                date_str = parts[1]
+                s_name = parts[2]
+                try:
+                    s_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                    await self._cycle_data.delete_symptom(s_date, s_name)
+                except ValueError:
+                    pass
+
+    @property
     def event(self) -> CalendarEvent | None:
         """Return the current or next upcoming event."""
         today = date.today()
@@ -98,6 +128,7 @@ class CycleCalendar(CalendarEntity):
                     summary="Period (Active)",
                     start=start,
                     end=end + timedelta(days=1),
+                    uid=f"period_{start.isoformat()}"
                 )
 
         # Otherwise show the next predicted period
@@ -107,6 +138,7 @@ class CycleCalendar(CalendarEntity):
                 summary="Period (Predicted)",
                 start=next_date,
                 end=next_date + timedelta(days=period_len),
+                uid=f"predicted_{next_date.isoformat()}"
             )
 
         return None
@@ -156,6 +188,7 @@ class CycleCalendar(CalendarEntity):
                     summary=summary,
                     start=c_start,
                     end=event_end,
+                    uid=f"period_{c_start_str}",
                 ))
 
         # Future predicted periods - repeat forward through the requested range
@@ -172,6 +205,7 @@ class CycleCalendar(CalendarEntity):
                         summary="Period (Predicted)",
                         start=next_date,
                         end=pred_end,
+                        uid=f"predicted_{next_date.isoformat()}"
                     ))
                 next_date = next_date + timedelta(days=cycle_len)
 
@@ -203,6 +237,7 @@ class CycleCalendar(CalendarEntity):
                     summary=summary,
                     start=s_date,
                     end=s_date + timedelta(days=1),
+                    uid=f"symptom_{date_str}_{symp.get('symptom', '')}"
                 ))
 
         return events
