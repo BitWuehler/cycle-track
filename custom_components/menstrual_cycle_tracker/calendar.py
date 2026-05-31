@@ -48,7 +48,7 @@ async def async_setup_entry(
 class CycleCalendar(CalendarEntity):
     """Calendar showing past, current, and predicted periods."""
 
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
     _attr_should_poll = False
 
     def __init__(self, cycle_data: Any, entry: ConfigEntry, tracker_name: str) -> None:
@@ -56,7 +56,7 @@ class CycleCalendar(CalendarEntity):
         self._cycle_data = cycle_data
         self._entry = entry
         self._attr_unique_id = f"{entry.entry_id}_calendar"
-        self._attr_translation_key = "calendar"
+        self._attr_name = tracker_name
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
             name=tracker_name,
