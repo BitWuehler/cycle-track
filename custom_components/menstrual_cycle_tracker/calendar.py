@@ -7,7 +7,7 @@ from typing import Any
 from homeassistant.components.calendar import CalendarEntity, CalendarEvent, CalendarEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.dispatcher import async_dispatcher_connect, async_dispatcher_send
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -92,11 +92,13 @@ class CycleCalendar(CalendarEntity):
         recurrence_id: str | None = None,
     ) -> None:
         """Delete an event on the calendar."""
+        updated = False
         if uid.startswith("period_"):
             start_date_str = uid[7:]
             try:
                 start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
-                await self._cycle_data.delete_cycle(start_date)
+                if await self._cycle_data.delete_cycle(start_date):
+                    updated = True
             except ValueError:
                 pass
         elif uid.startswith("symptom_"):
@@ -106,9 +108,14 @@ class CycleCalendar(CalendarEntity):
                 s_name = parts[2]
                 try:
                     s_date = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    await self._cycle_data.delete_symptom(s_date, s_name)
+                    if await self._cycle_data.delete_symptom(s_date, s_name):
+                        updated = True
                 except ValueError:
                     pass
+        
+        if updated:
+            async_dispatcher_send(self.hass, f"{SIGNAL_UPDATE}_{self._entry.entry_id}")
+            self.async_write_ha_state()
 
     @property
     def event(self) -> CalendarEvent | None:
