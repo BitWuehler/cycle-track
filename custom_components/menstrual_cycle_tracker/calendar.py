@@ -88,8 +88,8 @@ class CycleCalendar(CalendarEntity):
     async def async_delete_event(
         self,
         uid: str,
-        recurrence_range: str | None = None,
         recurrence_id: str | None = None,
+        recurrence_range: str | None = None,
     ) -> None:
         """Delete an event on the calendar."""
         updated = False
