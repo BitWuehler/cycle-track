@@ -13,6 +13,26 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN, SIGNAL_UPDATE
 
+SYMPTOM_MAP_DE = {
+    "cramps": "Krämpfe",
+    "headache": "Kopfschmerzen",
+    "fatigue": "Müdigkeit",
+    "bloating": "Blähungen",
+    "mood_swings": "Stimmungsschwankungen",
+    "temperature_sensitivity": "Temperaturempfinden",
+}
+
+SEVERITY_MAP_DE = {
+    "mild": "Leicht",
+    "moderate": "Mittel",
+    "severe": "Stark",
+    "very_cold": "Viel zu kalt",
+    "slightly_cold": "Leicht kühl",
+    "normal": "Normal",
+    "slightly_warm": "Leicht warm",
+    "very_hot": "Viel zu heiß",
+}
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -154,5 +174,35 @@ class CycleCalendar(CalendarEntity):
                         end=pred_end,
                     ))
                 next_date = next_date + timedelta(days=cycle_len)
+
+        # Symptoms
+        is_de = hass.config.language == "de"
+        for symp in cd.symptoms:
+            date_str = symp.get("date")
+            if not date_str:
+                continue
+            try:
+                s_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            except ValueError:
+                continue
+
+            # Event overlaps if s_date is within [range_start, range_end)
+            if range_start <= s_date < range_end:
+                s_name = symp.get("symptom", "Symptom")
+                sev = symp.get("severity")
+                if is_de:
+                    s_name = SYMPTOM_MAP_DE.get(s_name, s_name)
+                    if sev:
+                        sev = SEVERITY_MAP_DE.get(sev, sev)
+
+                summary = s_name
+                if sev:
+                    summary += f" ({sev})"
+
+                events.append(CalendarEvent(
+                    summary=summary,
+                    start=s_date,
+                    end=s_date + timedelta(days=1),
+                ))
 
         return events
