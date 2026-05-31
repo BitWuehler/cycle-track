@@ -50,7 +50,7 @@ SERVICE_LOG_SYMPTOM_SCHEMA = vol.Schema(
     {
         vol.Optional("tracker"): cv.string,
         vol.Required("symptom"): cv.string,
-        vol.Optional("severity"): vol.In(["mild", "moderate", "severe"]),
+        vol.Optional("severity"): cv.string,
         vol.Optional("date"): cv.string,
     }
 )
